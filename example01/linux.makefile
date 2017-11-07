@@ -7,7 +7,7 @@ SDIR = .
 IDIR = -I/usr/include
 LDIR = -L/usr/lib
 LIBS = -lzhash
-CFLAGS = -static -Wall -W -ggdb -std=c99 $(LIBS)
+CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
@@ -18,7 +18,7 @@ clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f))))
 _dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 all: $(OBJS) $(LIBS)
-	gcc $(OBJS) $(LDIR) $(LIBS) $(IDIR) -o $(BDIR)/$(_TARGET)
+	gcc $(OBJS) $(IDIR) $(LDIR) $(LIBS) -o $(BDIR)/$(_TARGET)
 
 run: all
 	./$(BDIR)/$(_TARGET).exe
