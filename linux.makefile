@@ -5,14 +5,12 @@ $(zhash): $(obj)
 
 .PHONY: install
 install: $(zhash)
-	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	mkdir -p $(DESTDIR)$(PREFIX)/include
-	cp $(zhash) $(DESTDIR)$(PREFIX)/lib/$(zhash)
-	$(info cp $(zhash) $(DESTDIR)$(PREFIX)/lib/$(zhash))
-	cp inc/zhash.h $(DESTDIR)$(PREFIX)/include/
-	$(info cp inc/zhash.h $(DESTDIR)$(PREFIX)/include/)
+	mkdir -p /usr/lib
+	mkdir -p /usr/include
+	cp $(zhash) /usr/lib/$(zhash)
+	cp inc/zhash.h /usr/include/
 
 .PHONY: uninstall
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/lib/$(zhash)
-	rm -f $(DESTDIR)$(PREFIX)/include/zhash.h
+	rm -f /usr/lib/$(zhash)
+	rm -f /usr/include/zhash.h
