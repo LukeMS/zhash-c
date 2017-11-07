@@ -5,9 +5,9 @@ install:
   - sudo make install --file=linux.makefile
 script:
   - cd example01
-  - make run --file=linux.makefile
+  - make valgrind --file=linux.makefile
   - cd .. 
   - cd example02
-  - make run --file=linux.makefile
+  - make valgrind --file=linux.makefile
   - cd ..
 after_script:
