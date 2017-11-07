@@ -1,0 +1,10 @@
+language: c
+before_install:
+install:
+  - make install --file=linux.makefile
+script:
+  - cd example01
+  - make run --file=linux.makefile
+  - cd example02
+  - make run --file=linux.makefile
+after_script:
