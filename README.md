@@ -1,4 +1,4 @@
-# Hash Table
+# Hash Table [![Build Status](https://travis-ci.org/LukeMS/dnf-c.svg?branch=master)](https://travis-ci.org/LukeMS/dnf-c)
 
 This is a hash table library implemented in C. The keys are strings and the values are void pointers.
 The basic hash table operations are supported: `set`, `get`, `exists`, `delete`.
