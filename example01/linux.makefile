@@ -21,7 +21,7 @@ all: $(OBJS) $(LIBS)
 	gcc $(OBJS) $(IDIR) $(LDIR) $(LIBS) -o $(BDIR)/$(_TARGET)
 
 run: all
-	$(BDIR)/$(_TARGET).exe
+	$(BDIR)/$(_TARGET)
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
