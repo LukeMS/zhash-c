@@ -1,6 +1,7 @@
 language: c
 before_install:
 install:
+  - sudo apt-get install valgrind
   - sudo make install --file=linux.makefile
 script:
   - cd example01
