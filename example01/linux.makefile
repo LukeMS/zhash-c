@@ -23,6 +23,9 @@ all: $(OBJS) $(LIBS)
 run: all
 	$(BDIR)/$(_TARGET)
 
+valgrind: all
+	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET)
+
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
 
