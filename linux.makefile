@@ -1,6 +1,14 @@
 zhash = libzhash.a
 
-$(zhash): $(obj)
+IDIR = -Iinc
+ODIR = obj
+SDIR = .
+CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
+
+_OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
+OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+
+$(zhash): $(OBJS)
 	$(AR) rcs $@ $^
 
 .PHONY: install
@@ -14,3 +22,11 @@ install: $(zhash)
 uninstall:
 	rm -f /usr/lib/$(zhash)
 	rm -f /usr/include/zhash.h
+
+# pull in dependency info for *existing* .o files
+-include $(OBJS:.o=.d)
+
+# compile and generate dependency info
+$(ODIR)/%.o: $(SDIR)/%.c
+	gcc -c $(CFLAGS) $*.c -o $(ODIR)/$*.o
+	gcc -MM $(CFLAGS) $*.c > $(ODIR)/$*.d
