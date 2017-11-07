@@ -1,6 +1,7 @@
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "./zhash.h"
+#include "zhash.h"
 
 // helper functions
 static size_t next_size_index(size_t size_index);
@@ -70,7 +71,25 @@ void zhash_set(struct ZHashTable *hash_table, char *key, void *val)
 
   entry->next = hash_table->entries[hash];
   hash_table->entries[hash] = entry;
+
+  // MOD
+  //printf("hash_table->entry_count %d; ", hash_table->entry_count);
+  if (hash_table->entry_count == 0) {
+    // first insertion becomes head and tail
+    entry->lnknext = NULL;
+    entry->lnkprev = NULL;
+    hash_table->head = entry;
+    hash_table->tail = entry;
+  } else {
+    // next insertions becomes the tail
+    entry->lnknext = NULL;
+    entry->lnkprev = hash_table->tail;
+    hash_table->tail->lnknext = entry;
+    hash_table->tail = entry;
+  }
   hash_table->entry_count++;
+  //printf("hash_table->entry_count %d\n", hash_table->entry_count);
+  // END OF MOD
 
   size = hash_sizes[hash_table->size_index];
 
@@ -120,8 +139,48 @@ void *zhash_delete(struct ZHashTable *hash_table, char *key)
   if (!entry) return NULL;
 
   val = entry->val;
+
+  // MOD
+  if (hash_table->entry_count == 0) {
+    hash_table->head = NULL;
+    hash_table->tail = NULL;
+  } else {
+
+    if (entry == hash_table->head) {
+        /*****************************************************************
+        * Handle removal from the head of the hash_table.
+        *****************************************************************/
+        hash_table->head = entry->lnknext;
+
+        if (hash_table->head == NULL) {
+            hash_table->tail = NULL;
+
+        } else {
+            entry->lnknext->lnkprev = NULL;
+        }
+
+    } else {
+        /*****************************************************************
+        * Handle removal from somewhere other than the head.
+        *****************************************************************/
+        entry->lnkprev->lnknext = entry->lnknext;
+
+        if (entry->lnknext == NULL) {
+            hash_table->tail = entry->lnkprev;
+
+        } else {
+            entry->lnknext->lnkprev = entry->lnkprev;
+        }
+
+    }
+
+
+  }
+  // END OF MOD
+
   zfree_entry(entry, false);
   hash_table->entry_count--;
+
 
   size = hash_sizes[hash_table->size_index];
 

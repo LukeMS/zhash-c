@@ -3,7 +3,8 @@
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
-#include "../src/zhash.h"
+
+#include "zhash.h"
 
 // generate strings of random  ASCII characters 64 to 126
 // between 5 and 20 characters

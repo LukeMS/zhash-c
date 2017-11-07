@@ -2,6 +2,7 @@
 #define ZHASH_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 // hash table
 // keys are strings
@@ -15,6 +16,8 @@ struct ZHashEntry {
   char *key;
   void *val;
   struct ZHashEntry *next;
+  struct ZHashEntry *lnknext;
+  struct ZHashEntry *lnkprev;
 };
 
 // struct representing the hash table
@@ -23,6 +26,10 @@ struct ZHashTable {
   size_t size_index;
   size_t entry_count;
   struct ZHashEntry **entries;
+  // MOD
+  struct ZHashEntry *head;
+  struct ZHashEntry *tail;
+  // END OF MOD
 };
 
 // hash table creation and destruction
