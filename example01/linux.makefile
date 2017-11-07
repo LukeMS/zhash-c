@@ -10,7 +10,7 @@ OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 clean_filenames := $(BDIR)/$(_TARGET).exe $(ODIR)/*.o $(ODIR)/*.d
 clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f))))
 
-_dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)" "$(LDIR)")
+_dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 all: $(OBJS) $(LIBS)
 	gcc $(OBJS) $(LIB) $(LIBS) -o $(BDIR)/$(_TARGET)
