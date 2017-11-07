@@ -8,6 +8,8 @@ CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
+_dummy := $(shell mkdir -p "$(ODIR)")
+
 $(zhash): $(OBJS)
 	$(AR) rcs $@ $^
 
