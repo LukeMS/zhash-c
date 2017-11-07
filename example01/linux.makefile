@@ -1,3 +1,6 @@
+_MAKEFILE_ABS = $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+_TARGET := $(basename $(notdir $(realpath $(lastword $(_MAKEFILE_ABS)))))
+
 BDIR = .
 ODIR = obj
 SDIR = .
