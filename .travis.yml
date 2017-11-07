@@ -5,6 +5,8 @@ install:
 script:
   - cd example01
   - make run --file=linux.makefile
+  - cd ..
   - cd example02
   - make run --file=linux.makefile
+  - cd ..
 after_script:
