@@ -10,4 +10,7 @@ script:
   - cd example02
   - make valgrind --file=linux.makefile
   - cd ..
+  - cd test
+  - make valgrind --file=linux.makefile
+  - cd ..
 after_script:
