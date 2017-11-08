@@ -7,7 +7,7 @@ SDIR = .
 IDIR = -I/usr/include
 LDIR = -L/usr/lib
 LIBS = -lzhash
-CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
+CFLAGS = -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))

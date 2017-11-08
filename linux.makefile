@@ -3,7 +3,7 @@ zhash = libzhash.a
 IDIR = -Iinc
 ODIR = obj
 SDIR = .
-CFLAGS = -static -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
+CFLAGS = -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
