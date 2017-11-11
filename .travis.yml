@@ -6,4 +6,6 @@ install:
 script:
   - cd ./example01 && cp -f ../linux_test.makefile ./makefile && make valgrind      && cd .. 
   - cd ./example02 && cp -f ../linux_test.makefile ./makefile && make valgrind      && cd ..
-  - cd ./test      && cp -f ../linux_test.makefile ./makefile && make valgrind gcov && cd ..
+  - cd ./test      && cp -f ../linux_test.makefile ./makefile && make all gcov valgrind
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

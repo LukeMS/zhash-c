@@ -26,12 +26,11 @@ run: all
 valgrind: all
 	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET).exe || gdb -batch -ex "run" -ex "bt full" --args $(BDIR)/$(_TARGET).exe
 
-gcov: 
+gcov:
 	./$(_TARGET).exe
-	strings $(_TARGET).exe | grep gcda
-	ls -A ./$(_TARGET).*
+	# strings $(_TARGET).exe | grep gcda
+	# ls -A ./$(_TARGET).*
 	gcov ./$(_TARGET).c
-	bash <(curl -s https://codecov.io/bash)
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
