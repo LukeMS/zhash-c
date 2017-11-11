@@ -30,6 +30,7 @@ gcov:
 	./$(_TARGET).exe
 	# strings $(_TARGET).exe | grep gcda
 	# ls -A ./$(_TARGET).*
+	touch $(_TARGET).gcda
 	gcov ./$(_TARGET).c
 
 # pull in dependency info for *existing* .o files
