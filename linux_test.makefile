@@ -8,7 +8,7 @@ SDIR = .
 IDIR = -I/usr/include
 LDIR = -L..
 LIBS = -lzhash -lgcov
-CFLAGS = -Wall -W -ggdb -std=c99 -O0 -fprofile-arcs -ftest-coverage
+CFLAGS = -Wall -W -ggdb -std=c99 -fPIC -O0 -fprofile-arcs -ftest-coverage
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
