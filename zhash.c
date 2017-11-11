@@ -134,7 +134,7 @@ void zhash_set(struct ZHashTable *hash_table, char *key, void *val) {
     * Handle insertion at an non-empty hash_table.
     *****************************************************************/
     } else {
-        entry->linked_next = hash_table->head->linked_next;
+        entry->linked_next = hash_table->head;
         entry->linked_next->linked_prev = entry;
     }
     /*****************************************************************
