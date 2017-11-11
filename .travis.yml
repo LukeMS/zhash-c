@@ -4,13 +4,6 @@ install:
   - sudo apt-get install valgrind
   - sudo make install --file=linux.makefile
 script:
-  - cd example01
-  - make valgrind --file=linux.makefile
-  - cd .. 
-  - cd example02
-  - make valgrind --file=linux.makefile
-  - cd ..
-  - cd test
-  - make valgrind --file=linux.makefile
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - cd ./example01 && cp -f ../linux_test.makefile ./ && make valgrind      && cd ..
+  - cd ./example02 && cp -f ../linux_test.makefile ./ && make valgrind      && cd ..
+  - cd ./test      && cp -f ../linux_test.makefile ./ && make valgrind gcov && bash <(curl -s https://codecov.io/bash)
