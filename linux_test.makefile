@@ -2,7 +2,7 @@ _MAKEFILE_ABS = $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 _TARGET := $(basename $(notdir $(realpath $(lastword $(_MAKEFILE_ABS)))))
 
 BDIR = .
-ODIR = obj
+ODIR = .
 SDIR = .
 IDIR = -I/usr/include
 LDIR = -L/usr/lib
