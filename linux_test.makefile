@@ -6,7 +6,7 @@ BDIR = .
 ODIR = .
 SDIR = .
 IDIR = -I/usr/include
-LDIR = -L..
+LDIR = -L/usr/lib/
 LIBS = -lzhash -lgcov
 CFLAGS = -Wall -W -ggdb -std=c99 -fPIC -O0 -fprofile-arcs -ftest-coverage
 

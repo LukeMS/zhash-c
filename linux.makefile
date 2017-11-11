@@ -26,7 +26,7 @@ uninstall:
 	rm -f /usr/include/zhash.h
 
 gcov:
-	gcc -shared $(IDIR) $(LDIR) $(CFLAGS) -fPIC -O0 -fprofile-arcs -ftest-coverage *.c -lgcov -o ./$(zhash)
+	gcc -shared $(IDIR) $(LDIR) $(CFLAGS) -fPIC -O0 -fprofile-arcs -ftest-coverage *.c -lgcov -o /usr/lib/$(zhash)
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
