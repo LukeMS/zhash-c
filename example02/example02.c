@@ -22,59 +22,78 @@ int main(void) {
     zhash_set(hash_table, "ke", (void *) "ve");
 
 
+    /*
+    loop1 ka: va
+    loop1 kb: vb
+    loop1 kc: vc
+    loop1 kd: vd
+    loop1 ke: ve
+    */
     entry = hash_table->head;
     if (hash_table->head != NULL) {
-        for (; entry; entry = entry->linked_next)
-        {
+        for (; entry; entry = entry->linked_next) {
             printf("loop1 %s: %s\n", entry->key, (char *) entry->val);
         }
     }
 
 
     if (zhash_exists(hash_table, "kb")) {
-        zhash_delete(hash_table, "kb");
+        printf("removed value %s\n", (char *) zhash_delete(hash_table, "kb"));
     }
     if (zhash_exists(hash_table, "kd")) {
-        zhash_delete(hash_table, "kd");
+        printf("removed value %s\n", (char *) zhash_delete(hash_table, "kd"));
     }
 
 
+    /*
+    loop2 ka: va
+    loop2 kc: vc
+    loop2 ke: ve
+    */
     entry = hash_table->head;
     if (hash_table->head != NULL) {
-        for (; entry; entry = entry->linked_next)
-        {
+        for (; entry; entry = entry->linked_next) {
             printf("loop2 %s: %s\n", entry->key, (char *) entry->val);
         }
     }
 
 
     if (zhash_exists(hash_table, "ka")) {
-        zhash_delete(hash_table, "ka");
+        printf("removed value %s\n", (char *) zhash_delete(hash_table, "ka"));
     }
     if (zhash_exists(hash_table, "ke")) {
-        zhash_delete(hash_table, "ke");
+        printf("removed value %s\n", (char *) zhash_delete(hash_table, "ke"));
     }
 
+
+    /*
+    loop3 kc: vc
+    */
     entry = hash_table->head;
     if (hash_table->head != NULL) {
-        for (; entry; entry = entry->linked_next)
-        {
+        for (; entry; entry = entry->linked_next) {
             printf("loop3 %s: %s\n", entry->key, (char *) entry->val);
         }
     }
 
     if (zhash_exists(hash_table, "kc")) {
-        zhash_delete(hash_table, "kc");
-    }
-    entry = hash_table->head;
-    if (hash_table->head != NULL) {
-        for (; entry; entry = entry->linked_next)
-        {
-            printf("loop4 %s: %s\n", entry->key, (char *) entry->val);
-        }
+        printf("removed value %s\n", (char *) zhash_delete(hash_table, "kc"));
     }
 
-    zfree_hash_table(hash_table);
+
+    /*
+    no output
+    */
+    entry = hash_table->head;
+    if (hash_table->head != NULL) {
+        for (; entry; entry = entry->linked_next) {
+            printf("loop4 %s: %s\n", entry->key, (char *) entry->val);
+        }
+    } else {
+        printf("loop4: no entries\n");
+    }
+
+    zfree_hash_table(hash_table, NULL);
 
     return 0;
 }

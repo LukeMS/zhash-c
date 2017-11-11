@@ -55,7 +55,7 @@ static void zhash_set_test()
 
   free(keys);
   free(vals);
-  zfree_hash_table(hash_table);
+  zfree_hash_table(hash_table, NULL);
 }
 
 static void zhash_delete_test()
@@ -100,7 +100,7 @@ static void zhash_delete_test()
 
   free(keys);
   free(vals);
-  zfree_hash_table(hash_table);
+  zfree_hash_table(hash_table, NULL);
 }
 
 static void zhash_exists_test()
@@ -117,7 +117,7 @@ static void zhash_exists_test()
   assert(zhash_get(hash_table, "nothing") == NULL);
   assert(zhash_exists(hash_table, "nope") == false);
 
-  zfree_hash_table(hash_table);
+  zfree_hash_table(hash_table, NULL);
 }
 
 int main()

@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <assert.h>
-#include <string.h>
-#include <inttypes.h>
 
 #include "zhash.h"
 
@@ -17,13 +15,13 @@ int main(void) {
     zhash_set(hash_table, "hello", (void *) "world");
 
     assert(hash_table->head == hash_table->tail);
-    printf("0x%" PRIXPTR " ", (uintptr_t)hash_table->head);
-    printf("0x%" PRIXPTR "\n", (uintptr_t)hash_table->tail);
+    printf("%p\n", hash_table->head);
+    printf("%p\n", hash_table->tail);
 
     zhash_set(hash_table, "goodbye", (void *) "world");
     assert(hash_table->head != hash_table->tail);
-    printf("0x%" PRIXPTR " ", (uintptr_t)hash_table->head);
-    printf("0x%" PRIXPTR "\n", (uintptr_t)hash_table->tail);
+    printf("%p\n", hash_table->head);
+    printf("%p\n", hash_table->tail);
 
     for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
     {
@@ -53,9 +51,7 @@ int main(void) {
 
     // free hash table (note that this only frees the table and the entry structs, not the values)
     // void zfree_hash_table(struct ZHashTable *hash_table);
-    zfree_hash_table(hash_table);
-
-    hash_table = NULL;
+    zfree_hash_table(hash_table, NULL);
 
     return 0;
 }
