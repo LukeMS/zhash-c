@@ -122,6 +122,7 @@ static void zhash_exists_test()
 
 int main()
 {
+  printf("zhash test\n");
   zhash_set_test();
   zhash_delete_test();
   zhash_exists_test();

@@ -7,7 +7,7 @@ SDIR = .
 IDIR = -I/usr/include
 LDIR = -L/usr/lib
 LIBS = -lzhash
-CFLAGS = -Wall -W -ggdb -std=c99 -O0 -coverage $(IDIR) $(LIBS)
+CFLAGS = -Wall -W -ggdb -std=c99 -O0 $(IDIR) $(LIBS)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
@@ -18,7 +18,7 @@ clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f))))
 _dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 all: $(OBJS) $(LIBS)
-	gcc $(OBJS) $(IDIR) $(LDIR) $(LIBS) -fprofile-generate -o $(BDIR)/$(_TARGET)
+	gcc $(OBJS) $(IDIR) $(LDIR) $(LIBS) -fprofile-arcs -ftest-coverage -o $(BDIR)/$(_TARGET)
 
 run: all
 	$(BDIR)/$(_TARGET)
@@ -35,7 +35,7 @@ gcov: run
 
 # compile and generate dependency info
 $(ODIR)/%.o: $(SDIR)/%.c
-	gcc -c $(CFLAGS) $*.c -o $(ODIR)/$*.o
+	gcc -c $(CFLAGS) -fprofile-arcs -lgcov $*.c -o $(ODIR)/$*.o
 	gcc -MM $(CFLAGS) $*.c > $(ODIR)/$*.d
 
 # remove compilation products
