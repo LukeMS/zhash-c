@@ -30,6 +30,8 @@ static struct ZHashTable *zcreate_hash_table_with_size(size_t size_index)
 
   hash_table->size_index = size_index;
   hash_table->entry_count = 0;
+  hash_table->head = NULL;
+  hash_table->tail = NULL;
   hash_table->entries = zcalloc(hash_sizes[size_index], sizeof(void *));
 
   return hash_table;
@@ -64,32 +66,28 @@ void zhash_set(struct ZHashTable *hash_table, char *key, void *val)
       entry->val = val;
       return;
     }
-    entry = entry->next;
+    entry = entry->bucket_next;
   }
 
   entry = zcreate_entry(key, val);
 
-  entry->next = hash_table->entries[hash];
+  entry->bucket_next = hash_table->entries[hash];
   hash_table->entries[hash] = entry;
 
+
   // MOD
-  //printf("hash_table->entry_count %d; ", hash_table->entry_count);
-  if (hash_table->entry_count == 0) {
-    // first insertion becomes head and tail
-    entry->lnknext = NULL;
-    entry->lnkprev = NULL;
-    hash_table->head = entry;
+  // head insertion
+  if (hash_table->head == NULL) {
+    entry->linked_next = NULL;
     hash_table->tail = entry;
+  // non-head insertion
   } else {
-    // next insertions becomes the tail
-    entry->lnknext = NULL;
-    entry->lnkprev = hash_table->tail;
-    hash_table->tail->lnknext = entry;
-    hash_table->tail = entry;
+    entry->linked_next = hash_table->head;
   }
+  hash_table->head = entry;
   hash_table->entry_count++;
-  //printf("hash_table->entry_count %d\n", hash_table->entry_count);
   // END OF MOD
+
 
   size = hash_sizes[hash_table->size_index];
 
@@ -106,7 +104,7 @@ void *zhash_get(struct ZHashTable *hash_table, char *key)
   hash = zgenerate_hash(hash_table, key);
   entry = hash_table->entries[hash];
 
-  while (entry && strcmp(key, entry->key) != 0) entry = entry->next;
+  while (entry && strcmp(key, entry->key) != 0) entry = entry->bucket_next;
 
   return entry ? entry->val : NULL;
 }
@@ -121,18 +119,18 @@ void *zhash_delete(struct ZHashTable *hash_table, char *key)
   entry = hash_table->entries[hash];
 
   if (entry && strcmp(key, entry->key) == 0) {
-    hash_table->entries[hash] = entry->next;
+    hash_table->entries[hash] = entry->bucket_next;
   } else {
     while (entry) {
-      if (entry->next && strcmp(key, entry->next->key) == 0) {
+      if (entry->bucket_next && strcmp(key, entry->bucket_next->key) == 0) {
         struct ZHashEntry *deleted_entry;
 
-        deleted_entry = entry->next;
-        entry->next = entry->next->next;
+        deleted_entry = entry->bucket_next;
+        entry->bucket_next = entry->bucket_next->bucket_next;
         entry = deleted_entry;
         break;
       }
-      entry = entry->next;
+      entry = entry->bucket_next;
     }
   }
 
@@ -141,41 +139,10 @@ void *zhash_delete(struct ZHashTable *hash_table, char *key)
   val = entry->val;
 
   // MOD
-  if (hash_table->entry_count == 0) {
-    hash_table->head = NULL;
+  if (entry == hash_table->head)
+    hash_table->head = entry->linked_next;
+  if (entry == hash_table->tail)
     hash_table->tail = NULL;
-  } else {
-
-    if (entry == hash_table->head) {
-        /*****************************************************************
-        * Handle removal from the head of the hash_table.
-        *****************************************************************/
-        hash_table->head = entry->lnknext;
-
-        if (hash_table->head == NULL) {
-            hash_table->tail = NULL;
-
-        } else {
-            entry->lnknext->lnkprev = NULL;
-        }
-
-    } else {
-        /*****************************************************************
-        * Handle removal from somewhere other than the head.
-        *****************************************************************/
-        entry->lnkprev->lnknext = entry->lnknext;
-
-        if (entry->lnknext == NULL) {
-            hash_table->tail = entry->lnkprev;
-
-        } else {
-            entry->lnknext->lnkprev = entry->lnkprev;
-        }
-
-    }
-
-
-  }
   // END OF MOD
 
   zfree_entry(entry, false);
@@ -199,7 +166,7 @@ bool zhash_exists(struct ZHashTable *hash_table, char *key)
   hash = zgenerate_hash(hash_table, key);
   entry = hash_table->entries[hash];
 
-  while (entry && strcmp(key, entry->key) != 0) entry = entry->next;
+  while (entry && strcmp(key, entry->key) != 0) entry = entry->bucket_next;
 
   return entry ? true : false;
 }
@@ -221,7 +188,7 @@ struct ZHashEntry *zcreate_entry(char *key, void *val)
 
 void zfree_entry(struct ZHashEntry *entry, bool recursive)
 {
-  if (recursive && entry->next) zfree_entry(entry->next, recursive);
+  if (recursive && entry->bucket_next) zfree_entry(entry->bucket_next, recursive);
 
   zfree(entry->key);
   zfree(entry);
@@ -261,8 +228,8 @@ void zhash_rehash(struct ZHashTable *hash_table, size_t size_index)
       struct ZHashEntry *next_entry;
 
       hash = zgenerate_hash(hash_table, entry->key);
-      next_entry = entry->next;
-      entry->next = hash_table->entries[hash];
+      next_entry = entry->bucket_next;
+      entry->bucket_next = hash_table->entries[hash];
       hash_table->entries[hash] = entry;
 
       entry = next_entry;

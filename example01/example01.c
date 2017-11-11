@@ -25,7 +25,7 @@ int main(void) {
     printf("0x%" PRIXPTR " ", (uintptr_t)hash_table->head);
     printf("0x%" PRIXPTR "\n", (uintptr_t)hash_table->tail);
 
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->lnknext)
+    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
     {
         printf("%s: %s\n", p->key, (char *) p->val);
     }

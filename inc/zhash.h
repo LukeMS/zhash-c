@@ -15,9 +15,8 @@
 struct ZHashEntry {
   char *key;
   void *val;
-  struct ZHashEntry *next;
-  struct ZHashEntry *lnknext;
-  struct ZHashEntry *lnkprev;
+  struct ZHashEntry *bucket_next;
+  struct ZHashEntry *linked_next;
 };
 
 // struct representing the hash table

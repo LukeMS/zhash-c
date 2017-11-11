@@ -12,5 +12,5 @@ script:
   - cd ..
   - cd test
   - make valgrind --file=linux.makefile
-  - cd ..
-after_script:
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

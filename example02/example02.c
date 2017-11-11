@@ -20,7 +20,7 @@ int main(void) {
     zhash_set(hash_table, "kd", (void *) "vd");
     zhash_set(hash_table, "ke", (void *) "ve");
 
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->lnknext)
+    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
     {
         printf("%s: %s; ", p->key, (char *) p->val);
     }
@@ -33,7 +33,7 @@ int main(void) {
         zhash_delete(hash_table, "kd");
     }
 
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->lnknext)
+    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
     {
         printf("%s: %s; ", p->key, (char *) p->val);
     }
@@ -45,7 +45,7 @@ int main(void) {
     if (zhash_exists(hash_table, "ke")) {
         zhash_delete(hash_table, "ke");
     }
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->lnknext)
+    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
     {
         printf("%s: %s; ", p->key, (char *) p->val);
     }
@@ -54,7 +54,7 @@ int main(void) {
     if (zhash_exists(hash_table, "kc")) {
         zhash_delete(hash_table, "kc");
     }
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->lnknext)
+    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
     {
         printf("%s: %s; ", p->key, (char *) p->val);
     }
