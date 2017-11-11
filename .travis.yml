@@ -1,8 +1,8 @@
 language: c
 before_install:
-  - sudo apt-get install valgrind gcov
+  - sudo apt-get install valgrind
 install:
-  - sudo make install --file=linux.makefile
+  - sudo make install gcov --file=linux.makefile
 script:
   - cd ./example01 && cp -f ../linux_test.makefile ./makefile && make valgrind      && cd .. 
   - cd ./example02 && cp -f ../linux_test.makefile ./makefile && make valgrind      && cd ..
