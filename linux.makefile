@@ -1,4 +1,4 @@
-zhash = libzhash.a
+zhash = libzhash.so
 
 IDIR = -Iinc
 ODIR = obj
@@ -24,6 +24,9 @@ install: $(zhash)
 uninstall:
 	rm -f /usr/lib/$(zhash)
 	rm -f /usr/include/zhash.h
+
+gcov:
+	gcc -shared $(IDIR) $(LDIR) $(CFLAGS) -O0 -fprofile-arcs -ftest-coverage *.c -lgcov -o ./$(zhash)
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
