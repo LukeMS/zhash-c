@@ -18,17 +18,17 @@ clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f))))
 _dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 all: $(OBJS) $(LIBS)
-	gcc $(OBJS) $(IDIR) $(LDIR) $(LIBS) -fprofile-arcs -ftest-coverage -o $(_TARGET).out
+	gcc $(OBJS) $(IDIR) $(LDIR) $(LIBS) -fprofile-arcs -ftest-coverage -o $(_TARGET).exe
 
 run: all
-	$(BDIR)/$(_TARGET).out
+	$(BDIR)/$(_TARGET).exe
 
 valgrind: all
-	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET).out || gdb -batch -ex "run" -ex "bt full" --args $(BDIR)/$(_TARGET).out
+	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET).exe || gdb -batch -ex "run" -ex "bt full" --args $(BDIR)/$(_TARGET).exe
 
 gcov: 
-	ls -A ./$(_TARGET).*
-	./$(_TARGET).out
+	./$(_TARGET).exe
+	strings $(_TARGET).exe | grep gcda
 	ls -A ./$(_TARGET).*
 	gcov ./$(_TARGET).c
 	bash <(curl -s https://codecov.io/bash)
