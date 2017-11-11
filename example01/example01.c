@@ -28,9 +28,6 @@ int main(void) {
         printf("%s: %s\n", p->key, (char *) p->val);
     }
 
-
-
-
     // return 1 if there is a value stored at the key and 0 otherwise
     // bool zhash_exists(struct ZHashTable *hash_table, char *key);
     if (zhash_exists(hash_table, "goodbye")) {

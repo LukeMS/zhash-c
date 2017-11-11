@@ -38,10 +38,10 @@ all: $(OBJS) $(LIBS)
 	gcc $(OBJS) $(LIB) $(LIBS_SHORT) -o $(BDIR)/$(_TARGET)
 
 rundrm: all
-	C:/dr_m/bin/drmemory -batch -- ./$(BDIR)/$(_TARGET).exe
+	C:/dr_m/bin/drmemory -batch -- $(BDIR)/$(_TARGET).exe
 
 run: all
-	./$(BDIR)/$(_TARGET).exe
+	$(BDIR)/$(_TARGET).exe
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)

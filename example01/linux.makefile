@@ -7,7 +7,7 @@ SDIR = .
 IDIR = -I/usr/include
 LDIR = -L/usr/lib
 LIBS = -lzhash
-CFLAGS = -Wall -W -ggdb -std=c99 $(IDIR) $(LIBS)
+CFLAGS = -Wall -W -ggdb -std=c99 -O0 -coverage $(IDIR) $(LIBS)
 
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
@@ -25,6 +25,7 @@ run: all
 
 valgrind: all
 	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET) || gdb -batch -ex "run" -ex "bt full" --args $(BDIR)/$(_TARGET)
+	gcov $*.c
 
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
