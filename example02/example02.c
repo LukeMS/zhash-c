@@ -11,6 +11,7 @@ int main(void) {
     // struct ZHashTable *zcreate_hash_table(void);
     struct ZHashTable *hash_table;
     hash_table = zcreate_hash_table();
+    struct ZHashEntry* entry;
 
     // set key to val (if there is already a value, overwrite it)
     // void zhash_set(struct ZHashTable *hash_table, char *key, void *val);
@@ -20,11 +21,15 @@ int main(void) {
     zhash_set(hash_table, "kd", (void *) "vd");
     zhash_set(hash_table, "ke", (void *) "ve");
 
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
-    {
-        printf("%s: %s; ", p->key, (char *) p->val);
+
+    entry = hash_table->head;
+    if (hash_table->head != NULL) {
+        for (; entry; entry = entry->linked_next)
+        {
+            printf("loop1 %s: %s\n", entry->key, (char *) entry->val);
+        }
     }
-    printf("\n");
+
 
     if (zhash_exists(hash_table, "kb")) {
         zhash_delete(hash_table, "kb");
@@ -33,11 +38,15 @@ int main(void) {
         zhash_delete(hash_table, "kd");
     }
 
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
-    {
-        printf("%s: %s; ", p->key, (char *) p->val);
+
+    entry = hash_table->head;
+    if (hash_table->head != NULL) {
+        for (; entry; entry = entry->linked_next)
+        {
+            printf("loop2 %s: %s\n", entry->key, (char *) entry->val);
+        }
     }
-    printf("\n");
+
 
     if (zhash_exists(hash_table, "ka")) {
         zhash_delete(hash_table, "ka");
@@ -45,20 +54,25 @@ int main(void) {
     if (zhash_exists(hash_table, "ke")) {
         zhash_delete(hash_table, "ke");
     }
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
-    {
-        printf("%s: %s; ", p->key, (char *) p->val);
+
+    entry = hash_table->head;
+    if (hash_table->head != NULL) {
+        for (; entry; entry = entry->linked_next)
+        {
+            printf("loop3 %s: %s\n", entry->key, (char *) entry->val);
+        }
     }
-    printf("\n");
 
     if (zhash_exists(hash_table, "kc")) {
         zhash_delete(hash_table, "kc");
     }
-    for (struct ZHashEntry* p = hash_table->head; p; p = p->linked_next)
-    {
-        printf("%s: %s; ", p->key, (char *) p->val);
+    entry = hash_table->head;
+    if (hash_table->head != NULL) {
+        for (; entry; entry = entry->linked_next)
+        {
+            printf("loop4 %s: %s\n", entry->key, (char *) entry->val);
+        }
     }
-    printf("\n");
 
     zfree_hash_table(hash_table);
 
