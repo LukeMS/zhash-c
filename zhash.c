@@ -4,7 +4,8 @@
 
 #include "zhash.h"
 
-// helper functions
+
+
 static size_t zgenerate_hash(struct ZHashTable *hash, char *key);
 static void zhash_rehash(struct ZHashTable *hash_table, size_t size_index);
 static struct ZHashEntry *zcreate_entry(char *key, void *val);
@@ -13,6 +14,36 @@ static size_t next_size_index(size_t size_index);
 static size_t previous_size_index(size_t size_index);
 static void *zmalloc(size_t size);
 static void *zcalloc(size_t num, size_t size);
+
+
+/************************************************************************//**
+ * array zhash_sizes: possible sizes for hash table (must be prime numbers).
+ ***************************************************************************/
+const size_t zhash_sizes[] = {
+  53,         // 0
+  101,        // 1
+  211,        // 2
+  503,        // 3
+  1553,       // 4
+  3407,       // 5
+  6803,       // 6
+  12503,      // 7
+  25013,      // 8
+  50261,      // 9
+  104729,     // 10
+  250007,     // 11
+  500009,     // 12
+  1000003,    // 13
+  2000029,    // 14
+  4000037,    // 15
+  10000019,   // 16
+  25000009,   // 17
+  50000047,   // 18
+  104395301,  // 19
+  217645177,  // 20
+  512927357,  // 21
+  1000000007  // 22
+};
 
 
 /*****************************************************************
