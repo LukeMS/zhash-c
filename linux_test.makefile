@@ -26,8 +26,8 @@ run: all
 valgrind: all
 	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET) || gdb -batch -ex "run" -ex "bt full" --args $(BDIR)/$(_TARGET)
 
-gcov:
-	gcov *.c
+gcov: run
+	gcov $(_TARGET).c
 	bash <(curl -s https://codecov.io/bash)
 
 # pull in dependency info for *existing* .o files
