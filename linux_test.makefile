@@ -19,7 +19,7 @@ clean_files := $(strip $(foreach f,$(clean_filenames),$(wildcard $(f))))
 _dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 all:
-	gcc $(IDIR) $(LDIR) $(LIBS) $(_TARGET).c -o $(EXE)
+	gcc $(CFLAGS) $(IDIR) $(LDIR) $(LIBS) $(_TARGET).c -o $(EXE)
 
 run: all
 	$(BDIR)/$(EXE)
