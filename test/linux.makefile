@@ -7,7 +7,7 @@ SDIR = .
 IDIR = -I/usr/include
 LDIR = -L/usr/lib
 LIBS = -lzhash
-CFLAGS = -Wall -W -ggdb -std=c99 -O0 -coverage $(IDIR) $(LIBS)
+CFLAGS = -Wall -W -ggdb -std=c99 -O0 -coverage $(IDIR) $(LDIR) $(LIBS)
 
 C_SRC := $(wildcard *.c)
 _OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
@@ -22,7 +22,7 @@ _dummy := $(shell mkdir -p "$(BDIR)" "$(ODIR)")
 
 
 all:
-	gcc $(CFLAGS) $(C_SRC) $(LIB) $(LIBS_SHORT) -o $(BDIR)/$(_TARGET)
+	gcc $(CFLAGS) $(C_SRC) -o $(BDIR)/$(_TARGET)
 
 
 run: all
