@@ -21,12 +21,12 @@ all: $(OBJS) $(LIBS)
 	gcc $(OBJS) $(IDIR) $(LDIR) $(LIBS) -fprofile-arcs -ftest-coverage -o $(_TARGET).out
 
 run: all
-	$(BDIR)/$(_TARGET)
+	$(BDIR)/$(_TARGET).out
 
 valgrind: all
-	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET) || gdb -batch -ex "run" -ex "bt full" --args $(BDIR)/$(_TARGET)
+	valgrind --error-exitcode=666 --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all --track-fds=yes $(BDIR)/$(_TARGET).out || gdb -batch -ex "run" -ex "bt full" --args $(BDIR)/$(_TARGET).out
 
-gcov:
+gcov: 
 	ls -A $(_TARGET).*
 	$(_TARGET).out
 	ls -A $(_TARGET).*
